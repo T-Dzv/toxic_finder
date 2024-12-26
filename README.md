@@ -34,6 +34,7 @@
 - Python 3.9
 - 
 
+***
 
 ## Покрокові Git команди для роботи з репозиторієм [toxic_finder](https://github.com/T-Dzv/toxic_finder.git)
 
