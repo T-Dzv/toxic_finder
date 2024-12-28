@@ -284,7 +284,7 @@ git log
 4. **Встановіть необхідні пакети:**
 
     ```bash
-    conda install jupyter numpy matplotlib seaborn pandas scikit-learn tensorflow keras transformers
+    conda install jupyter numpy matplotlib seaborn pandas scikit-learn tensorflow keras transformers streamlit
     ```
 
 
