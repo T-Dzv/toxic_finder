@@ -5,7 +5,6 @@ import os
 from transformers import BertTokenizer
 import logging
 
-
 # Зменшення рівня логування TensorFlow
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 logging.getLogger('tensorflow').setLevel(logging.ERROR)
@@ -51,6 +50,9 @@ def clean_text(text):
 # Застосування очищення тексту
 merged_data['cleaned_comment_text'] = merged_data['comment_text'].apply(clean_text)
 
+# Видалення рядків з мітками -1
+filtered_data = merged_data[~((merged_data[['toxic', 'severe_toxic', 'obscene', 'threat', 'insult', 'identity_hate']] == -1).any(axis=1))].copy()
+
 # Ініціалізація токенізатора
 tokenizer = BertTokenizer.from_pretrained('bert-base-uncased')
 
@@ -66,12 +68,15 @@ def tokenize_text(text, tokenizer, max_length=128):
     )
     return encoding['input_ids'], encoding['attention_mask']
 
-# Токенізація текстів
-merged_data['input_ids'], merged_data['attention_masks'] = zip(*merged_data['cleaned_comment_text'].apply(
-    lambda x: tokenize_text(x, tokenizer)))
+# Токенізація текстів із використанням .loc
+input_ids, attention_masks = zip(*filtered_data['cleaned_comment_text'].apply(
+    lambda x: tokenize_text(x, tokenizer)
+))
+filtered_data.loc[:, 'input_ids'] = input_ids
+filtered_data.loc[:, 'attention_masks'] = attention_masks
 
 # Збереження результату в CSV
-output_path = os.path.join(os.path.dirname(__file__), 'test_data.csv')
-merged_data[['id', 'cleaned_comment_text', 'input_ids', 'attention_masks', 'toxic', 'severe_toxic', 'obscene', 'threat', 'insult', 'identity_hate']].to_csv(output_path, index=False)
+output_path = os.path.join(os.path.dirname(__file__), 'test_data_cleaned.csv')
+filtered_data[['id', 'cleaned_comment_text', 'input_ids', 'attention_masks', 'toxic', 'severe_toxic', 'obscene', 'threat', 'insult', 'identity_hate']].to_csv(output_path, index=False)
 
 print(f"Обробка завершена. Результат збережено у {output_path}")
