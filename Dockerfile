@@ -17,6 +17,7 @@ COPY ./models /app/models
 # Встановлюємо залежності для TensorFlow
 RUN apt-get update && apt-get install -y \
     libgl1-mesa-glx \
+    xdg-utils \
     && rm -rf /var/lib/apt/lists/*
 
 # Встановлюємо Python-залежності з requirements.txt
@@ -26,5 +27,5 @@ RUN pip install --no-cache-dir --upgrade pip && \
 # Відкриваємо порт 8501 для Streamlit
 EXPOSE 8501
 
-# Запускаємо додаток Streamlit
-CMD ["streamlit", "run", "app.py", "--server.port=8501", "--server.address=0.0.0.0"]
+# CMD: Запускаємо Streamlit і відкриваємо браузер
+CMD ["python", "-m", "streamlit", "run", "main.py", "--server.port=8501", "--server.address=0.0.0.0", "--server.headless=true"]

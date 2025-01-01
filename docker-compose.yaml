@@ -2,7 +2,7 @@ version: "3.8"
 
 services:
   streamlit-web:
-    image: yourusername/yourimage:latest
+    image: streamlit_app:v1.0
     ports:
       - "8501:8501"
     restart: always
