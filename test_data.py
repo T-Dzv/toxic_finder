@@ -66,7 +66,11 @@ def tokenize_text(text, tokenizer, max_length=128):
         return_tensors='tf',  # TensorFlow замість PyTorch
         return_attention_mask=True
     )
+<<<<<<< HEAD
     return encoding['input_ids'].numpy().squeeze(0).tolist(), encoding['attention_mask'].numpy().squeeze(0).tolist()
+=======
+    return encoding['input_ids'], encoding['attention_mask']
+>>>>>>> f310650e5a2c1b990048111d70a92080bbd6079d
 
 # Токенізація текстів із використанням .loc
 input_ids, attention_masks = zip(*filtered_data['cleaned_comment_text'].apply(
@@ -76,7 +80,14 @@ filtered_data.loc[:, 'input_ids'] = input_ids
 filtered_data.loc[:, 'attention_masks'] = attention_masks
 
 # Збереження результату в CSV
+<<<<<<< HEAD
 output_path = os.path.join(os.path.dirname(__file__), 'test_data.csv')
 filtered_data[['id', 'cleaned_comment_text', 'input_ids', 'attention_masks', 'toxic', 'severe_toxic', 'obscene', 'threat', 'insult', 'identity_hate']].to_csv(output_path, index=False)
 
 print(f"Обробка завершена. Результат збережено у {output_path}")
+=======
+output_path = os.path.join(os.path.dirname(__file__), 'test_data_cleaned.csv')
+filtered_data[['id', 'cleaned_comment_text', 'input_ids', 'attention_masks', 'toxic', 'severe_toxic', 'obscene', 'threat', 'insult', 'identity_hate']].to_csv(output_path, index=False)
+
+print(f"Обробка завершена. Результат збережено у {output_path}")
+>>>>>>> f310650e5a2c1b990048111d70a92080bbd6079d
