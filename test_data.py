@@ -66,7 +66,7 @@ def tokenize_text(text, tokenizer, max_length=128):
         return_tensors='tf',  # TensorFlow замість PyTorch
         return_attention_mask=True
     )
-    return encoding['input_ids'], encoding['attention_mask']
+    return encoding['input_ids'].numpy().squeeze(0).tolist(), encoding['attention_mask'].numpy().squeeze(0).tolist()
 
 # Токенізація текстів із використанням .loc
 input_ids, attention_masks = zip(*filtered_data['cleaned_comment_text'].apply(
