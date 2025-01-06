@@ -1,1 +1,5 @@
 venv/
+data_format_test.ipynb
+model-5.h5
+train_data_1.py
+train-data-analysis.ipynb
