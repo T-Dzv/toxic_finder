@@ -2,7 +2,7 @@ version: "3.8"
 
 services:
   streamlit-web:
-    image: streamlit_app:v1.0
+    image: paulren9200/toxic_finder:latest
     ports:
       - "8501:8501"
     restart: always
