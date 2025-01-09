@@ -11,9 +11,6 @@ WORKDIR /app
 # Копіюємо всі файли проекту в контейнер
 COPY . .
 
-# Копіюємо моделі в контейнер (припускаємо, що моделі зберігаються в директорії "models")
-COPY ./models /app/models
-
 # Встановлюємо залежності для TensorFlow
 RUN apt-get update && apt-get install -y \
     libgl1-mesa-glx \
@@ -28,4 +25,4 @@ RUN pip install --no-cache-dir --upgrade pip && \
 EXPOSE 8501
 
 # CMD: Запускаємо Streamlit і відкриваємо браузер
-CMD ["python", "-m", "streamlit", "run", "main.py", "--server.port=8501", "--server.address=0.0.0.0", "--server.headless=true"]
+CMD ["python", "-m", "streamlit", "run", "app.py", "--server.port=8501", "--server.address=0.0.0.0", "--server.headless=true"]
