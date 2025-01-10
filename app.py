@@ -7,6 +7,7 @@ import pandas as pd
 import numpy as np 
 from transformers import TFBertForSequenceClassification
 from tensorflow.keras.utils import custom_object_scope
+import gdown
 
 # Функція очищення тексту
 def clean_text(text):
@@ -61,10 +62,19 @@ def show_predict(LABELS, predictions, probs):
 #Добавляємо назви класів
 LABELS = ['Токсичний', 'Сильно токсичний', 'Непристойний', 'Погрози', 'Образи', 'Ненависть до ідентичності', 'Не токсичний']
 
-#Загружаємо модель
-custom_objects = {'TFBertMainLayer': TFBertForSequenceClassification}
-with custom_object_scope(custom_objects):
-    model = tf.keras.models.load_model('model-5.h5')  
+
+# Завантаження моделі з гугл драйв
+def load_model_from_drive():
+    url = "https://drive.google.com/uc?id=1oTn0rHP0J89603ogboct9UDEYjVryfHj"
+    output = "model-5.h5"
+    gdown.download(url, output, quiet=False)
+    custom_objects = {'TFBertMainLayer': TFBertForSequenceClassification}
+    with custom_object_scope(custom_objects):
+        model = tf.keras.models.load_model(output)
+    return model
+
+
+model = load_model_from_drive()
 
 # Ініціалізація токенізатора
 tokenizer = BertTokenizer.from_pretrained('bert-base-uncased')
